@@ -35,7 +35,7 @@ LLM-MOVIE-RECOMMENDATION/
 ├── chroma_db/                  # Local vector database storage (auto-generated)
 │
 ├── data/                       # Raw datasets
-│   └── tmdb_5000_movies.csv    # Source movie metadata
+│   └── tmdb_5000_movies.csv    # Source movie metadata（https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata）
 │
 ├── evaluation/                 # Automated testing and evaluation pipeline
 │   ├── golden_dataset.json     # Ground truth Q&A pairs for regression testing
