@@ -1,0 +1,14 @@
+[
+  {
+    "query": "A movie where humans connect their brains to blue aliens on the planet Pandora.",
+    "expected_movie": "Avatar"
+  },
+  {
+    "query": "A billionaire puts on an armored flying suit to fight terrorists.",
+    "expected_movie": "Iron Man"
+  },
+  {
+    "query": "A young wizard goes to a magical school called Hogwarts.",
+    "expected_movie": "Harry Potter and the Philosopher's Stone"
+  }
+]

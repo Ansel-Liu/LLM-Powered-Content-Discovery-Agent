@@ -1,0 +1,11 @@
+# Security 
+.env
+
+# Python caches 
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Vector Database 
+chroma_db/
+
