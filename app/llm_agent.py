@@ -10,14 +10,27 @@ embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-
 vector_db = Chroma(persist_directory="./chroma_db", embedding_function=embeddings)
 
 def generate_recommendation(query: str, top_k: int):
-    # Retrieve semantically similar movies from the vector database
-    results = vector_db.similarity_search_with_score(query, k=top_k)
+    # Retrieve MORE candidates (top_k * 3) to guarantee we have enough unique movies after filtering
+    results = vector_db.similarity_search_with_score(query, k=top_k * 3)
 
     movies = []
     context_text = ""
+    seen_titles = set()
     
-    for i, (doc, score) in enumerate(results):
+    for doc, score in results:
+        # Stop processing if we have successfully collected enough unique movies
+        if len(movies) >= top_k:
+            break
+            
         title = doc.metadata.get('title', 'Unknown Title')
+        
+        # Deduplication Check: If we have already seen this movie, skip to the next one
+        if title in seen_titles:
+            continue
+            
+        # Add to our tracking set
+        seen_titles.add(title)
+        
         overview = doc.page_content
         
         # Convert distance score to a normalized relevance percentage
@@ -28,7 +41,9 @@ def generate_recommendation(query: str, top_k: int):
             overview=overview,
             relevance_score=relevance
         ))
-        context_text += f"\nMovie {i+1}: {title}\nPlot: {overview}\n"
+        
+        # Use len(movies) instead of enumerate index to keep numbering sequential in the prompt
+        context_text += f"\nMovie {len(movies)}: {title}\nPlot: {overview}\n"
 
     # Generate a contextual summary using a Large Language Model
     try:

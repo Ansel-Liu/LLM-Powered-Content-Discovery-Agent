@@ -1,11 +1,25 @@
 # Security 
 .env
 
-# Python caches 
+# Python Caches 
 __pycache__/
 *.pyc
+*.pyo
 .pytest_cache/
+
+# Virtual Environments
+venv/
+.venv/
+env/
 
 # Vector Database 
 chroma_db/
 
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
