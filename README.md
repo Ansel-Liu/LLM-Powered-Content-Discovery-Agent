@@ -1,50 +1,63 @@
-# LLM-Powered Content Discovery Agent
+#  Full-Stack AI Content Discovery Platform
 
-An end-to-end Machine Learning microservice designed to handle semantic search and personalized streaming media recommendations using Large Language Models and Vector Databases.
+A production-ready, full-stack movie recommendation engine leveraging **Retrieval-Augmented Generation (RAG)**, hybrid semantic vector search, and Large Language Models to deliver highly accurate, contextual content discovery.
 
-This project demonstrates production-grade **MLOps practices**, including architecture design, data pipeline engineering, and **evaluation-driven development**.
+This project demonstrates a complete end-to-end engineering lifecycle, from data pipeline construction and automated evaluation to full-stack integration and multi-stage containerized deployment.
 
-## System Architecture
+##  Product Preview
 
-1. **Data Pipeline:** Ingests raw movie metadata (TMDB dataset) and converts natural language overviews into dense mathematical representations (Embeddings) using HuggingFace `sentence-transformers`.
+*(Note to hiring managers: Below is the UI demonstration of the content discovery engine in action.)*
 
-2. **Vector Database:** Utilizes ChromaDB for efficient, local semantic similarity search (retrieval-augmented generation / RAG).
+### 1. User Interface & Search History
+![Platform UI](assets/ui-screenshot.png) 
+### 2. AI Reasoning & Hybrid Retrieval Results
+![Recommendation Results](assets/results-screenshot.png)
+---
 
-3. **LLM Agentic Logic:** Integrates OpenAI's GPT models via `langchain` to synthesize vector search results into highly personalized, user-friendly recommendations.
+##  System Architecture
 
-4. **API Layer:** Exposes the functionality through a robust, asynchronous **FastAPI** interface with strict data validation using Pydantic.
+This project decouples a modern interactive frontend from an AI-powered analytical backend:
 
-## Tech Stack
+1. **Frontend (Client Layer):** Built with **React.js** and **Vite**, offering a responsive, dark-mode streaming-app interface with client-side state management (LocalStorage for search history) and seamless REST API integration.
+2. **Backend (API Layer):** A robust **FastAPI** application handling asynchronous data routing, CORS middleware, and strict request/response validation using **Pydantic**.
+3. **Data Ingestion & Vector DB:** Utilizes **ChromaDB** for local semantic similarity search. Raw TMDB datasets are parsed using **Pandas**, where metadata (genres, country, release year) is dynamically merged into dense "Super String" embeddings to overcome the limitations of pure semantic search.
+4. **LLM Agentic Logic:** Integrates OpenAI's GPT models via **LangChain** to synthesize vector search results into highly personalized, conversational recommendations.
+5. **DevOps & Deployment:** Fully containerized using **Docker** and **Docker Compose**, implementing multi-stage builds (serving static React assets via Nginx) for reliable, isolated local deployment.
 
-* **Framework:** FastAPI, Pydantic, Uvicorn
+##  Tech Stack
+
+* **Frontend:** React, JavaScript (ES6+), Vite, CSS3
+* **Backend:** FastAPI, Python 3.11, Pydantic, Uvicorn
 * **AI & Machine Learning:** LangChain, OpenAI API, HuggingFace (`all-MiniLM-L6-v2`)
-* **Vector Store:** ChromaDB
-* **Data Processing:** Pandas
-* **Testing & Evaluation:** PyTest
-* **Deployment:** Docker
+* **Database:** ChromaDB (Vector Store), SQLite
+* **DevOps:** Docker, Docker Compose, Nginx
+* **Testing:** PyTest
 
 ##  Project Structure
 
 ```text
 LLM-MOVIE-RECOMMENDATION/
-├── app/                        # Core API and application logic
-│   ├── llm_agent.py            # RAG logic, semantic search, and LLM integration
+├── frontend/                   # React/Vite Frontend Application
+│   ├── src/                    # UI Components and API fetch logic
+│   ├── Dockerfile              # Multi-stage Docker build (Node.js -> Nginx)
+│   └── package.json
+│
+├── app/                        # Core API and application logic (Backend)
+│   ├── llm_agent.py            # RAG logic, hybrid search, and LLM integration
 │   ├── main.py                 # FastAPI application entry point and routing
 │   └── models.py               # Pydantic schemas for strict data validation
 │
-├── chroma_db/                  # Local vector database storage (auto-generated)
-│
-├── data/                       # Raw datasets
-│   └── tmdb_5000_movies.csv    # Source movie metadata（https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata）
+├── chroma_db/                  # Local vector database storage (Generated)
+├── data/                       # Raw datasets (TMDB 5000 Movies)
 │
 ├── evaluation/                 # Automated testing and evaluation pipeline
 │   ├── golden_dataset.json     # Ground truth Q&A pairs for regression testing
 │   └── test_pipeline.py        # PyTest script to evaluate LLM accuracy/recall
 │
-├── build_database.py           # Script to vectorize CSV data and populate ChromaDB
-├── Dockerfile                  # Containerization specifications
-├── requirements.txt            # Python dependencies
-└── .gitignore                  # Security and cache exclusion rules
+├── build_database.py           # Script to vectorize CSV data with rich metadata
+├── docker-compose.yml          # Orchestration for Frontend and Backend services
+├── Dockerfile                  # Backend containerization specifications
+└── requirements.txt            # Python dependencies
 ```
 
 ## Evaluation-Driven Development (Testing Pipeline)
