@@ -24,14 +24,6 @@ This project covers the complete development process, including frontend develop
 
 ---
 
-### Search History
-
-> Previous searches are stored locally for a better user experience.
-
-![Search History](assets/search-history.png)
-
----
-
 ## Features
 
 - Full-stack web application built with React and FastAPI
